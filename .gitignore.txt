@@ -1,0 +1,12 @@
+transcript
+microprocesseur.cr.mti
+microprocesseur.mpf
+*.log
+*.wlf
+*.vstf
+*.bak
+*.jou
+*.pb
+*.tcl
+*.vcd
+*.vhd.bak

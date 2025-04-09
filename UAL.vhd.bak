@@ -1,0 +1,48 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity ALU is
+    Port(
+        A         : in  STD_LOGIC_VECTOR(15 downto 0);
+        B         : in  STD_LOGIC_VECTOR(15 downto 0);
+        opcode    : in  STD_LOGIC_VECTOR(2 downto 0);
+        result    : out STD_LOGIC_VECTOR(15 downto 0);
+        carry_out : out STD_LOGIC  -- Pour une gestion éventuelle de la retenue
+    );
+end ALU;
+
+architecture Behavioral of ALU is
+    signal tmpA, tmpB : unsigned(15 downto 0);
+    signal tmp      : unsigned(15 downto 0);
+begin
+    tmpA <= unsigned(A);
+    tmpB <= unsigned(B);
+
+    process(tmpA, tmpB, opcode)
+    begin
+        case opcode is
+            when "000" =>  -- Addition
+                tmp       := tmpA + tmpB;
+                result    <= std_logic_vector(tmp);
+                carry_out <= '0';  -- Pour simplifier, la gestion de la retenue n'est pas détaillée
+            when "001" =>  -- Soustraction
+                tmp       := tmpA - tmpB;
+                result    <= std_logic_vector(tmp);
+                carry_out <= '0';
+            when "010" =>  -- AND logique
+                result    <= A and B;
+                carry_out <= '0';
+            when "011" =>  -- OR logique
+                result    <= A or B;
+                carry_out <= '0';
+            when "100" =>  -- XOR logique
+                result    <= A xor B;
+                carry_out <= '0';
+            when others =>
+                result    <= (others => '0');
+                carry_out <= '0';
+        end case;
+    end process;
+end Behavioral;
+
